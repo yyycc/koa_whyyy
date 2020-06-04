@@ -20,10 +20,7 @@ app.use(async (ctx, next) => {
 app.use(bodyParser());
 
 // add controllers:
+// 注册所有的url
 app.use(controller());
 
-// add router middleware:
-app.use(router.routes());
-
-app.listen(3000);
-console.log('app started at port 3000...');
+module.exports = app;

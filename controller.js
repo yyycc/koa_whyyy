@@ -27,7 +27,6 @@ let addControllers = (router, dir) => {// 导入fs模块(文件系统模块)
     for (let f of js_files) {
         console.log(`process controller: ${f}...`);
         let mapping = require(__dirname + '/controllers/' + f);
-        console.log(mapping);
         addMapping(router, mapping);
     }
 };
