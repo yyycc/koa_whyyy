@@ -1,10 +1,7 @@
 const Sequelize = require('sequelize');
-
 const uuid = require('node-uuid');
-
 const mysql = require('./config/mysql');
-
-console.log('init sequelize...');
+const moment = require('moment');
 
 function generateId() {
     return uuid.v4();
@@ -40,15 +37,21 @@ function defineModel(name, attributes) {
         type: ID_TYPE,
         primaryKey: true
     };
-    /*attrs.createdAt = {
-        type: Sequelize.BIGINT,
-        allowNull: false
+    attrs.creation_date = {
+        type: Sequelize.DATE,
+        allowNull: false,
+        get() {
+            return moment(this.getDataValue('creation_date')).format('YYYY-MM-DD HH:mm:ss');
+        }
     };
-    attrs.updatedAt = {
-        type: Sequelize.BIGINT,
-        allowNull: false
+    attrs.last_update_date = {
+        type: Sequelize.DATE,
+        allowNull: false,
+        get() {
+            return moment(this.getDataValue('last_update_date')).format('YYYY-MM-DD HH:mm:ss');
+        }
     };
-    attrs.version = {
+    /*attrs.version = {
         type: Sequelize.BIGINT,
         allowNull: false
     };*/
@@ -85,20 +88,18 @@ function defineModel(name, attributes) {
                     if (!obj.id) {
                         obj.id = generateId();
                     }
-                    /*obj.createdAt = now;
-                    obj.updatedAt = now;
-                    obj.version = 0;*/
+                    obj.creation_date = now;
+                    obj.last_update_date = now;
                 } else {
-                    console.log('will update entity...');
-                    /*obj.updatedAt = now;
-                    obj.version++;*/
+                    console.log('will update entity...' + obj);
+                    obj.last_update_date = now;
                 }
             }
         }
     });
 }
 
-const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATEONLY', 'BOOLEAN'];
+const TYPES = ['STRING', 'INTEGER', 'BIGINT', 'TEXT', 'DOUBLE', 'DATE', 'BOOLEAN'];
 
 let exp = {
     defineModel: defineModel,

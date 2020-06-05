@@ -9,8 +9,6 @@ let Users = db.defineModel('y_users', {
     mail_address: {type: db.STRING(100), allowNull: true},
     phone_number: {type: db.STRING(20), allowNull: true},
     age: {type: db.INTEGER, allowNull: true},
-    creation_date: db.DATEONLY,
-    last_update_date: db.DATEONLY
 }, {
     timestamps: false
 });

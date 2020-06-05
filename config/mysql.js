@@ -8,14 +8,11 @@ const fs = require('fs');
 var mysql = null;
 
 if (process.env.NODE_ENV === 'test') {
-    console.log(`Load ${testMysql}...`);
     mysql = require(testMysql);
 } else {
-    console.log(`Load ${defaultMysql}...`);
     mysql = require(defaultMysql);
     try {
         if (fs.statSync(overrideMysql).isFile()) {
-            console.log(`Load ${overrideMysql}...`);
             mysql = Object.assign(mysql, require(overrideMysql));
         }
     } catch (err) {
